@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Image_viewer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="800"
+		Width="1300" Height="800"
+        x:Class="Image_viewer.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Image_viewer"
+		Background="#8C9182">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Grid RowDefinitions="*,50" ColumnDefinitions="400,*,*">
+		<TreeView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Items="{Binding Items}" HorizontalAlignment="Left">
+			<TreeView.ItemTemplate>
+				<TreeDataTemplate ItemsSource="{Binding AllNodes}">
+					<ContentControl TemplateApplied="LoadNodes">
+						<TreeViewItem PointerReleased="TransitionChanged" Header="{Binding FileName}"/>
+					</ContentControl>
+				</TreeDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+		<Carousel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Name="carousel"  Items="{Binding Folders}">
+				<Carousel.ItemTemplate>
+					<DataTemplate>
+							<Image Margin="10" Source="{Binding Img}">
+								<ToolTip.Tip>
+									<TextBlock Classes="textblock" Text="{Binding Path}"/>
+								</ToolTip.Tip>
+							</Image>
+					</DataTemplate>
+				</Carousel.ItemTemplate>
+			</Carousel>
+		<Button IsEnabled="{Binding ButtonEnable}" Background="#22241F" Name="GoBack" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<Image  Source="/Assets/goprevious.ico"/>
+		</Button>
+		<Button IsEnabled="{Binding ButtonEnable}" Background="#22241F" Name="GoNext" Grid.Row="1" Grid.Column="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+			<Image Source="/Assets/gonext.ico" ToolTip.Tip="{Binding Path}" /> 
+		</Button>
+	</Grid>
+
+</Window>
